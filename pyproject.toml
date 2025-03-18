@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "2025-p1-pulsardu"
+version = "0.1.0"
+description = ""
+authors = ["xiaoyu"]
+
+readme = "README.md"
+packages = [{include = "todo"}]
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

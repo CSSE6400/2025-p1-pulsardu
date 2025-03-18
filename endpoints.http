@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:6400
+
+#Health Check
+GET {{baseUrl}}/api/v1/health
+
+#get all 
+GET {{baseUrl}}/api/v1/todos
+
+#get one 
+GET {{baseUrl}}/api/v1/todos/1
+
+#create 
+POST {{baseUrl}}/api/v1/todos
+Content-Type: application/json
+
+{
+    "title": "complete Flask API",
+    "description": "archieve w1"
+}
+
+### update 
+PUT {{baseUrl}}/api/v1/todos/1
+Content-Type: application/json
+
+{
+    "completed": true
+}
+
+### delete TODO
+DELETE {{baseUrl}}/api/v1/todos/1
