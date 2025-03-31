@@ -2,26 +2,28 @@ from flask import Blueprint, jsonify, request
 
 api = Blueprint('api', __name__, url_prefix='/api/v1')
 
-# fake
+# 假数据
 todos = [
-    {"id": 1, "title": "complete ", "description": "complete Flask API goal", "completed": False},
+    {"id": 1, "title": "complete", "description": "complete Flask API goal", "completed": False},
 ]
+
+# 健康检查
 @api.route('/health', methods=['GET'])
 def health():
     return jsonify({"status": "OK"}), 200
 
-# get all todo
+# 获取所有 TODO
 @api.route('/todos', methods=['GET'])
 def get_todos():
-    return jsonify(todos)
+    return jsonify(todos), 200
 
-# get one todo
+# 获取单个 TODO
 @api.route('/todos/<int:id>', methods=['GET'])
 def get_todo(id):
     todo = next((t for t in todos if t["id"] == id), None)
-    return jsonify(todo) if todo else ("", 404)
+    return (jsonify(todo), 200) if todo else ("", 404)
 
-# create
+# 创建 TODO
 @api.route('/todos', methods=['POST'])
 def create_todo():
     data = request.get_json()
@@ -34,20 +36,20 @@ def create_todo():
     todos.append(new_todo)
     return jsonify(new_todo), 201
 
-# update
-@api.route('/todos/<int:id>', methods=['PUT']) 
-def update_todo(todo_id):
+# ✅ 修复：更新 TODO（添加了装饰器）
+@api.route('/todos/<int:id>', methods=['PUT'])
+def update_todo(id):
     data = request.get_json()
-    todo = next((item for item in todos if item['id'] == todo_id), None)
+    todo = next((item for item in todos if item['id'] == id), None)
     if not todo:
         return jsonify({"error": "Not found"}), 404
-    # update
-    for key in data:
-        if key in todo:
+    # 更新字段
+    for key in ['title', 'description', 'completed']:
+        if key in data:
             todo[key] = data[key]
     return jsonify(todo), 200
 
-# delete
+# 删除 TODO
 @api.route('/todos/<int:id>', methods=['DELETE'])
 def delete_todo(id):
     global todos
