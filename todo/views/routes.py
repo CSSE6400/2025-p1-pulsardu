@@ -6,7 +6,6 @@ api = Blueprint('api', __name__, url_prefix='/api/v1')
 todos = [
     {"id": 1, "title": "complete ", "description": "complete Flask API goal", "completed": False},
 ]
-
 @api.route('/health', methods=['GET'])
 def health():
     return jsonify({"status": "OK"}), 200
@@ -36,6 +35,7 @@ def create_todo():
     return jsonify(new_todo), 201
 
 # update
+@api.route('/todos/<int:id>', methods=['PUT']) 
 def update_todo(todo_id):
     data = request.get_json()
     todo = next((item for item in todos if item['id'] == todo_id), None)
